@@ -61,4 +61,14 @@ If the album name or artist name is not defined in the info.txt file, we try and
 
 ### Cover art
 
-If the folder contains a `cover.jpg` file, we assume this is the cover art image.
+If the folder contains a `cover.jpg` file, we assume this is the cover art image which will be added to all mp3 files in the folder.
+
+
+## TODO
+
+  - [ ] Determine artist/album automatically from folder name
+    - Code exists in `ParsePath.js`, but it hasn't been implemented yet
+  - [ ] Document the default file rename transformations
+  - [ ] Add an interactive mode to prompt for missing metadata when `info.txt` doesn't exist, or isn't complete
+  - [ ] Add a switch to disable interactive mode
+  - [ ] Add a switch to export existing ID3 data to `info.txt` (or a specified text file)
