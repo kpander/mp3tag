@@ -1,0 +1,17 @@
+# CHANGELOG
+
+- v2.0.0 (2021-10-20)
+
+  - Rewritten in nodeJS
+  - PHP version archived
+
+- v1.0.2 (2020-07-25)
+
+  - Updates getid3 library to v1.9.20 to address PHP deprecation issues
+
+- v1.0.3 (2019-01-11)
+
+  - Updates getid3 library to v1.9.16 to address PHP deprecation issues
+
+- v1.0.0 (2008-10-06)
+  - Initial release
