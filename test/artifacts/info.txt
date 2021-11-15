@@ -1,0 +1,5 @@
+ARTIST=Tag Artist
+ALBUM=My Best Tags
+YEAR=2021
+URL=https://www.invisiblethreads.com
+GENRE=Rock
