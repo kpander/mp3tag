@@ -247,3 +247,219 @@ test(
     });
   }
 );
+
+test(
+  `[process-008]
+  Given
+    - valid path in format '/path/to/artist~album' with mp3 files
+    - path contains info.txt does not have entries for 'album' or 'artist'
+  When
+    - app is called
+  Then
+    - 'album' and 'artist' should come from path name
+    - exit code is 0
+`.trim(),
+  async () => {
+    // Given...
+    const tmpobj = tmp.dirSync();
+    const artist_path = "custom artist";
+    const album_path = "custom album";
+    const path_tmp = path.join(tmpobj.name, `${artist_path}~${album_path}`);
+    fs.mkdirSync(path_tmp);
+
+    const file1 = TestUtil.getRefFile1(path_tmp);
+    const file2 = TestUtil.getRefFile2(path_tmp);
+    TestUtil.copyRefFiles([file1, file2]);
+    TestUtil.createInfoTxt(path_tmp, {}, ["artist", "album"]);
+
+    const args = [`"${path_tmp}"`];
+
+    // When...
+    const result = TestUtil.exec(args);
+
+    // Then... exit without error
+    expect(result.status).toEqual(0);
+    expect(result.stderr.toString().length).toEqual(0);
+
+    // Then... tags should include the artist and album from the path.
+    [file1, file2].forEach((file) => {
+      const file_metadata = TagFiles.read(file.renamed);
+      expect(file_metadata["artist"]).toEqual(artist_path);
+      expect(file_metadata["album"]).toEqual(album_path);
+    });
+  }
+);
+
+test(
+  `[process-009]
+  Given
+    - valid path in format '/path/to/artist  ~    album' with mp3 files
+    - path contains info.txt does not have entries for 'album' or 'artist'
+  When
+    - app is called
+  Then
+    - 'album' and 'artist' should come from path name
+    - leading/trailing spaces are removed
+    - exit code is 0
+`.trim(),
+  async () => {
+    // Given...
+    const tmpobj = tmp.dirSync();
+    const artist_path = "custom artist";
+    const album_path = "custom album";
+    const path_tmp = path.join(
+      tmpobj.name,
+      `${artist_path}  ~   ${album_path}`
+    );
+    fs.mkdirSync(path_tmp);
+
+    const file1 = TestUtil.getRefFile1(path_tmp);
+    const file2 = TestUtil.getRefFile2(path_tmp);
+    TestUtil.copyRefFiles([file1, file2]);
+    TestUtil.createInfoTxt(path_tmp, {}, ["artist", "album"]);
+
+    const args = [`"${path_tmp}"`];
+
+    // When...
+    const result = TestUtil.exec(args);
+
+    // Then... exit without error
+    expect(result.status).toEqual(0);
+    expect(result.stderr.toString().length).toEqual(0);
+
+    // Then... tags should include the artist and album from the path.
+    [file1, file2].forEach((file) => {
+      const file_metadata = TagFiles.read(file.renamed);
+      expect(file_metadata["artist"]).toEqual(artist_path);
+      expect(file_metadata["album"]).toEqual(album_path);
+    });
+  }
+);
+
+test(
+  `[process-010]
+  Given
+    - valid path in format '/path/to/artist - album' with mp3 files
+    - path contains info.txt does not have entries for 'album' or 'artist'
+  When
+    - app is called
+  Then
+    - 'album' and 'artist' should come from path name
+    - leading/trailing spaces are removed
+    - exit code is 0
+`.trim(),
+  async () => {
+    // Given...
+    const tmpobj = tmp.dirSync();
+    const artist_path = "custom artist";
+    const album_path = "custom album";
+    const path_tmp = path.join(tmpobj.name, `${artist_path} - ${album_path}`);
+    fs.mkdirSync(path_tmp);
+
+    const file1 = TestUtil.getRefFile1(path_tmp);
+    const file2 = TestUtil.getRefFile2(path_tmp);
+    TestUtil.copyRefFiles([file1, file2]);
+    TestUtil.createInfoTxt(path_tmp, {}, ["artist", "album"]);
+
+    const args = [`"${path_tmp}"`];
+
+    // When...
+    const result = TestUtil.exec(args);
+
+    // Then... exit without error
+    expect(result.status).toEqual(0);
+    expect(result.stderr.toString().length).toEqual(0);
+
+    // Then... tags should include the artist and album from the path.
+    [file1, file2].forEach((file) => {
+      const file_metadata = TagFiles.read(file.renamed);
+      expect(file_metadata["artist"]).toEqual(artist_path);
+      expect(file_metadata["album"]).toEqual(album_path);
+    });
+  }
+);
+
+test(
+  `[process-011]
+  Given
+    - valid path in format '/path/to/artist - album-with-hyphen' with mp3 files
+    - path contains info.txt does not have entries for 'album' or 'artist'
+  When
+    - app is called
+  Then
+    - 'album-with-hyphen' and 'artist' should come from path name
+    - leading/trailing spaces are removed
+    - exit code is 0
+`.trim(),
+  async () => {
+    // Given...
+    const tmpobj = tmp.dirSync();
+    const artist_path = "custom artist";
+    const album_path = "custom-album-with-hyphen";
+    const path_tmp = path.join(tmpobj.name, `${artist_path} - ${album_path}`);
+    fs.mkdirSync(path_tmp);
+
+    const file1 = TestUtil.getRefFile1(path_tmp);
+    const file2 = TestUtil.getRefFile2(path_tmp);
+    TestUtil.copyRefFiles([file1, file2]);
+    TestUtil.createInfoTxt(path_tmp, {}, ["artist", "album"]);
+
+    const args = [`"${path_tmp}"`];
+
+    // When...
+    const result = TestUtil.exec(args);
+
+    // Then... exit without error
+    expect(result.status).toEqual(0);
+    expect(result.stderr.toString().length).toEqual(0);
+
+    // Then... tags should include the artist and album from the path.
+    [file1, file2].forEach((file) => {
+      const file_metadata = TagFiles.read(file.renamed);
+      expect(file_metadata["artist"]).toEqual(artist_path);
+      expect(file_metadata["album"]).toEqual(album_path);
+    });
+  }
+);
+
+test(
+  `[process-012]
+  Given
+    - valid path in format '/path/to/artist/album' with mp3 files
+    - path contains info.txt does not have entries for 'album' or 'artist'
+  When
+    - app is called
+  Then
+    - 'album' and 'artist' should come from path name
+    - exit code is 0
+`.trim(),
+  async () => {
+    // Given...
+    const tmpobj = tmp.dirSync();
+    const artist_path = "custom_artist";
+    const album_path = "custom_album";
+    const path_tmp = path.join(tmpobj.name, artist_path, album_path);
+    fs.mkdirSync(path_tmp, { recursive: true });
+
+    const file1 = TestUtil.getRefFile1(path_tmp);
+    const file2 = TestUtil.getRefFile2(path_tmp);
+    TestUtil.copyRefFiles([file1, file2]);
+    TestUtil.createInfoTxt(path_tmp, {}, ["artist", "album"]);
+
+    const args = [`"${path_tmp}"`];
+
+    // When...
+    const result = TestUtil.exec(args);
+
+    // Then... exit without error
+    expect(result.status).toEqual(0);
+    expect(result.stderr.toString().length).toEqual(0);
+
+    // Then... tags should include the artist and album from the path.
+    [file1, file2].forEach((file) => {
+      const file_metadata = TagFiles.read(file.renamed);
+      expect(file_metadata["artist"]).toEqual(artist_path);
+      expect(file_metadata["album"]).toEqual(album_path);
+    });
+  }
+);

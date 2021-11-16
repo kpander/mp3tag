@@ -25,13 +25,19 @@ module.exports = class MainProcess {
     }
 
     // Read info.txt to get metadata, and check for cover art.
-    const metadata = {
+    let metadata = {
       ...ReadInfo.read(path.join(this.path, "info.txt")),
       ...this._get_cover_art(),
     };
     if (Object.keys(metadata).length === 0) {
       return this._error("info.txt not found or has no valid data. Aborting.");
     } else {
+      if (!metadata.artist || !metadata.album) {
+        metadata = {
+          ...metadata,
+          ...ParsePath.artistAlbumFromPath(this.path),
+        };
+      }
       console.log("Using metadata:\n", metadata);
     }
 

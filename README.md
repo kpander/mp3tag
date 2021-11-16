@@ -57,18 +57,28 @@ URL=http://allmusic.com/something
 
 Note: The **GENRE** value should be text (and NOT a number), and should come from [this list](https://en.wikipedia.org/wiki/List_of_ID3v1_Genres).
 
-If the album name or artist name is not defined in the info.txt file, we try and determine it from the path. We expect the path to be in the format: "Artist name ~ Album name".
+### Automatic detection of 'artist' and 'album' tags
+
+If the album name or artist name is not defined in the `info.txt` file, we determine it from the path. The following patterns are checked in the path:
+
+- Tilde delimiter: `/path/to/artist name ~ album name`
+- Hyphen delimiter: `/path/to/artist name - album name`
+- Parent/child path names: `/path/to/artist name/album name`
 
 ### Cover art
 
 If the folder contains a `cover.jpg` file, we assume this is the cover art image which will be added to all mp3 files in the folder.
 
+## Exit Codes
+
+| Exit code | Description       |
+| :-------- | :---------------- |
+| 0         | Normal exit       |
+| 1         | Exited with error |
 
 ## TODO
 
-  - [ ] Determine artist/album automatically from folder name
-    - Code exists in `ParsePath.js`, but it hasn't been implemented yet
-  - [ ] Document the default file rename transformations
-  - [ ] Add an interactive mode to prompt for missing metadata when `info.txt` doesn't exist, or isn't complete
-  - [ ] Add a switch to disable interactive mode
-  - [ ] Add a switch to export existing ID3 data to `info.txt` (or a specified text file)
+- [ ] Document the default file rename transformations
+- [ ] Add an interactive mode to prompt for missing metadata when `info.txt` doesn't exist, or isn't complete
+- [ ] Add a switch to disable interactive mode
+- [ ] Add a switch to export existing ID3 data to `info.txt` (or a specified text file)
