@@ -55,7 +55,7 @@ module.exports = class TestUtil {
   }
 
   // Write reference info.txt content for testing tagging.
-  static createInfoTxt(path_dest) {
+  static createInfoTxt(path_dest, includes = {}, excludes = []) {
     const file = path.join(path_dest, "info.txt");
 
     const metadata = {
@@ -64,15 +64,18 @@ module.exports = class TestUtil {
       year: "2011",
       url: "https://customurl.com/my/path",
       genre: "Fusion",
+      ...includes,
     };
 
-    const info = `
-ARTIST=${metadata.artist}
-ALBUM=${metadata.album}
-YEAR=${metadata.year}
-URL=${metadata.url}
-GENRE=${metadata.genre}
-`.trim();
+    excludes.forEach((key) => {
+      delete metadata[key];
+    });
+
+    const info = Object.keys(metadata)
+      .map((key) => {
+        return `${key.toUpperCase()}=${metadata[key]}`;
+      })
+      .join("\n");
 
     fs.writeFileSync(file, info, "utf8");
     return metadata;

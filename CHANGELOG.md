@@ -1,5 +1,10 @@
 # CHANGELOG
 
+- v2.1.0 (2021-11-16)
+
+  - Behaviour change: If the `info.txt` file doesn't contain entries for `artist` or `album`, we determine them from the path name
+    - See [Github issue](https://github.com/kpander/mp3tag/issues/1)
+
 - v2.0.0 (2021-10-20)
 
   - Rewritten in nodeJS
@@ -14,4 +19,5 @@
   - Updates getid3 library to v1.9.16 to address PHP deprecation issues
 
 - v1.0.0 (2008-10-06)
+
   - Initial release
