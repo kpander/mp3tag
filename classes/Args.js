@@ -46,6 +46,11 @@ module.exports = class Args {
         case "n":
           args.options.isDryRun = true;
           break;
+
+        case "list":
+        case "l":
+          args.command = "list";
+          break;
       }
     });
 

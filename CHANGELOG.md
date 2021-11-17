@@ -1,5 +1,11 @@
 # CHANGELOG
 
+- v2.2.0 (2021-11-16)
+
+  - Feature: Adds ability to display tags for files in the given folder
+    - Usage: `$ tag /path/to/files --list`
+    - See [Github issue](https://github.com/kpander/mp3tag/issues/4)
+
 - v2.1.0 (2021-11-16)
 
   - Behaviour change: If the `info.txt` file doesn't contain entries for `artist` or `album`, we determine them from the path name

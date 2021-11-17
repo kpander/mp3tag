@@ -17,7 +17,7 @@ module.exports = class MainProcess {
     this.isDryRun = config.isDryRun === true ? true : false;
   }
 
-  init() {
+  tag() {
     // Get mp3 files in folder.
     const files = this._get_files();
     if (!files.length) {
@@ -61,6 +61,29 @@ module.exports = class MainProcess {
     });
 
     return renames;
+  }
+
+  list() {
+    // Show existing tags for this folder. Use first file found.
+    const files = this._get_files();
+    if (!files.length) {
+      return this._error("No mp3 files found in given path. Aborting.");
+    }
+    files.sort();
+
+    const tags = TagFiles.read(files[0]);
+    const excludes = ["track_number", "track_title", "cover_art"];
+    this._list_tags(tags, excludes);
+  }
+
+  _list_tags(tags, excludes) {
+    Object.keys(tags)
+      .filter((key) => {
+        return !excludes.includes(key);
+      })
+      .forEach((key) => {
+        console.log(`${key.toUpperCase()}=${tags[key].toString().trim()}`);
+      });
   }
 
   // @param object renames where

@@ -24,6 +24,7 @@ Add ID3 data and rename mp3 files in the current folder.
 
 Options:
   -n, --dry-run   Show what would happen, but don't change any files
+  -l, --list      Show existing tags for files in the folder (don't add tags)
   -h, --help      Display this help page and exit
   -v, --version   Display version information and exit
 
@@ -40,6 +41,9 @@ Examples:
 
   Process files in ~/music/band1
    $ ${bin} ~/music/band1
+
+  Show existing tags for mp3 files in ~/music/my-band
+   $ ${bin} ~/music/my-band --list
 
   `.trim()
     );

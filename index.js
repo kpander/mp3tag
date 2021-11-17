@@ -34,9 +34,12 @@ const main = function (args) {
       Help.version();
       break;
     case "process":
-      if (!mainProcess.init()) {
+      if (!mainProcess.tag()) {
         process.exit(1);
       }
+      break;
+    case "list":
+      mainProcess.list();
       break;
   }
 
