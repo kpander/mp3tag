@@ -89,8 +89,8 @@ This is what will happen automatically:
 - Files are named beginning with a 2 character number (e.g., "05_Filename.mp3")
   - If files already begin with a number > 2 digits, that number is retained (e.g., "201_Filename.mp3")
 - Each 'word' in a filename is capitalized
-- If every file begins with the same string (at least 5 characters), it is removed
-- If every file ends with the same string (at least 5 characters), it is removed
+- If every file begins with the same string (at least 2 characters), it is removed
+- If every file ends with the same string (at least 2 characters), it is removed
 - All spaces are converted to underscores
 
 ## Exit Codes
