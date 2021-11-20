@@ -58,7 +58,7 @@ test(
   async () => {
     // Given...
     const expected = {
-      "01_Song_A.mp3": "01_Song_A.mp3",
+      "01_This_Song_A.mp3": "01_This_Song_A.mp3",
       "02_Song_B.mp3": "02_Song_B.mp3",
     };
 
@@ -84,7 +84,7 @@ test(
   async () => {
     // Given...
     const expected = {
-      "01 Song A.mp3": "01_Song_A.mp3",
+      "01 My Song A.mp3": "01_My_Song_A.mp3",
       "02 Song B.mp3": "02_Song_B.mp3",
     };
 
@@ -110,8 +110,8 @@ test(
   async () => {
     // Given...
     const expected = {
-      "/path/to/first folder/01 Song A.mp3":
-        "/path/to/first folder/01_Song_A.mp3",
+      "/path/to/first folder/01 My Song A.mp3":
+        "/path/to/first folder/01_My_Song_A.mp3",
       "/path/to another/folder/02 Song B.mp3":
         "/path/to another/folder/02_Song_B.mp3",
     };
@@ -138,8 +138,8 @@ test(
   async () => {
     // Given...
     const expected = {
-      "/path/to/first [folder]/01 Song A.mp3":
-        "/path/to/first [folder]/01_Song_A.mp3",
+      "/path/to/first [folder]/01 My Song A.mp3":
+        "/path/to/first [folder]/01_My_Song_A.mp3",
       "/path/to another/[folder]/02 Song B.mp3":
         "/path/to another/[folder]/02_Song_B.mp3",
     };
@@ -166,7 +166,7 @@ test(
   async () => {
     // Given...
     const expected = {
-      "/path/to/01 Song  .mp3": "/path/to/01_Song.mp3",
+      "/path/to/01 A Song  .mp3": "/path/to/01_A_Song.mp3",
       "/path/to/02 Song__.mp3": "/path/to/02_Song.mp3",
       "/path/to/03 Song--.mp3": "/path/to/03_Song.mp3",
     };
@@ -240,17 +240,19 @@ test(
   `[RenameFiles-010]
   Given
     - an array of paths/filenames
+    - filenames have consecutive periods
   When
     - renameFiles is called
   Then
     - a map of source/renamed files is returned
-    - all-caps words have been made lowercase
+    - consecutive periods are replaced with a single period
     - filenames have each word capitalized
 `.trim(),
   async () => {
     // Given...
     const expected = {
-      "/path/to/01 group of WORDS.mp3": "/path/to/01_Group_Of_Words.mp3",
+      "/path/to/01 group..of...words.mp3": "/path/to/01_Group.Of.Words.mp3",
+      "/path/to/02 another bunch....mp3": "/path/to/02_Another_Bunch.mp3",
     };
 
     // When...
@@ -301,12 +303,12 @@ test(
   async () => {
     // Given...
     const expected = {
-      "/path/to/01 this is one common crap replace this text.mp3":
-        "/path/to/01_This_Is_One.mp3",
+      "/path/to/01 so this is one common crap replace this text.mp3":
+        "/path/to/01_So_This_Is_One.mp3",
       "/path/to/02 this is two common crap replace this text.mp3":
         "/path/to/02_This_Is_Two.mp3",
-      "/path/to/03 this is three common crap replace this text.mp3":
-        "/path/to/03_This_Is_Three.mp3",
+      "/path/to/03 and this is three common crap replace this text.mp3":
+        "/path/to/03_And_This_Is_Three.mp3",
       "/path/to/04 this is four common crap replace this text.mp3":
         "/path/to/04_This_Is_Four.mp3",
     };
@@ -333,8 +335,8 @@ test(
   async () => {
     // Given...
     const expected = {
-      "/path/to common crap replace this text/01 this is one common crap replace this text.mp3":
-        "/path/to common crap replace this text/01_This_Is_One.mp3",
+      "/path/to common crap replace this text/01 and this is one common crap replace this text.mp3":
+        "/path/to common crap replace this text/01_And_This_Is_One.mp3",
       "/path/to/02 this is two common crap replace this text.mp3":
         "/path/to/02_This_Is_Two.mp3",
       "/path/to common crap replace this text/03 this is three common crap replace this text.mp3":
@@ -453,6 +455,110 @@ test(
       "/path/to/02. your song two.mp3": "/path/to/02_Your_Song_Two.mp3",
       "/path/to/03-and song three.mp3": "/path/to/03_And_Song_Three.mp3",
       "/path/to/04 - this four.mp3": "/path/to/04_This_Four.mp3",
+    };
+
+    // When...
+    const result = RenameFiles.renameFiles(Object.keys(expected));
+
+    // Then...
+    expect(result).toEqual(expected);
+  }
+);
+
+test(
+  `[RenameFiles-018]
+  Given
+    - an array of paths/filenames
+    - filenames with capitals after punctuation retain their case
+  When
+    - renameFiles is called
+  Then
+    - a map of source/renamed files is returned
+    - each file is numbered and cleaned properly
+`.trim(),
+  async () => {
+    // Given...
+    const expected = {
+      "/path/to/01. My.Song.One.mp3": "/path/to/01_My.Song.One.mp3",
+    };
+
+    // When...
+    const result = RenameFiles.renameFiles(Object.keys(expected));
+
+    // Then...
+    expect(result).toEqual(expected);
+  }
+);
+
+test(
+  `[RenameFiles-019]
+  Given
+    - an array of paths/filenames
+    - filenames with hyphens
+  When
+    - renameFiles is called
+  Then
+    - a map of source/renamed files is returned
+    - hyphens are replaced with underscores
+`.trim(),
+  async () => {
+    // Given...
+    const expected = {
+      "/path/to/01. My-Song-One.mp3": "/path/to/01_My_Song_One.mp3",
+    };
+
+    // When...
+    const result = RenameFiles.renameFiles(Object.keys(expected));
+
+    // Then...
+    expect(result).toEqual(expected);
+  }
+);
+
+test(
+  `[RenameFiles-020]
+  Given
+    - an array of paths/filenames
+    - with common text starting after the file number
+  When
+    - renameFiles is called
+  Then
+    - a map of source/renamed files is returned
+    - common text is removed
+`.trim(),
+  async () => {
+    // Given...
+    const expected = {
+      "/path/to/01-Justice-Genesis.mp3": "/path/to/01_Genesis.mp3",
+      "/path/to/02-Justice - D.A.N.C.E.mp3": "/path/to/02_D.A.N.C.E.mp3",
+      "/path/to/03-Justice-Phantom-1.mp3": "/path/to/03_Phantom_1.mp3",
+    };
+
+    // When...
+    const result = RenameFiles.renameFiles(Object.keys(expected));
+
+    // Then...
+    expect(result).toEqual(expected);
+  }
+);
+
+test(
+  `[RenameFiles-021]
+  Given
+    - an array of paths/filenames
+    - with common text starting before the file number
+  When
+    - renameFiles is called
+  Then
+    - a map of source/renamed files is returned
+    - common text is removed
+`.trim(),
+  async () => {
+    // Given...
+    const expected = {
+      "/path/to/Justice-01--Genesis.mp3": "/path/to/01_Genesis.mp3",
+      "/path/to/Justice-02- - D.A.N.C.E.mp3": "/path/to/02_D.A.N.C.E.mp3",
+      "/path/to/Justice-03-Phantom-1.mp3": "/path/to/03_Phantom_1.mp3",
     };
 
     // When...
