@@ -1,5 +1,11 @@
 # CHANGELOG
 
+- v2.3.0 (2021-11-20)
+
+  - Feature: Adds ability to disable file renaming during tagging
+    - Usage: `$ tag /path/to/files --no-rename`
+    - See [Github issue](https://github.com/kpander/mp3tag/issues/8)
+
 - v2.2.1 (2021-11-20)
 
   - Bugfix: File renaming consistency improved

@@ -1,6 +1,6 @@
 {
   "name": "mp3tag",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "description": "CLI tool to add ID3 tags to MP3 files",
   "main": "index.js",
   "bin": {

@@ -47,6 +47,13 @@ module.exports = class Args {
           args.options.isDryRun = true;
           break;
 
+        case "rename":
+          if (raw_options.rename === false) {
+            // --no-rename
+            args.options.disableRename = true;
+          }
+          break;
+
         case "list":
         case "l":
           args.command = "list";

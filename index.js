@@ -23,6 +23,7 @@ const main = function (args) {
   const config = {
     path: args.options.path,
     isDryRun: args.options.isDryRun,
+    disableRename: args.options.disableRename,
   };
   const mainProcess = new MainProcess(config);
 

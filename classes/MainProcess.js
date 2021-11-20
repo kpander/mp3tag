@@ -15,6 +15,7 @@ module.exports = class MainProcess {
   constructor(config = {}) {
     this.path = config.path || false;
     this.isDryRun = config.isDryRun === true ? true : false;
+    this.disableRename = config.disableRename === true ? true : false;
   }
 
   tag() {
@@ -48,6 +49,10 @@ module.exports = class MainProcess {
   }
 
   _rename_files(files) {
+    if (this.disableRename === true) {
+      return this._array_to_pairs(files);
+    }
+
     const renames = RenameFiles.renameFiles(files);
     Object.keys(renames).forEach((file_src) => {
       const name_src = path.basename(file_src);
@@ -61,6 +66,14 @@ module.exports = class MainProcess {
     });
 
     return renames;
+  }
+
+  _array_to_pairs(arr) {
+    const pairs = {};
+    arr.forEach((item) => {
+      pairs[item] = item;
+    });
+    return pairs;
   }
 
   list() {

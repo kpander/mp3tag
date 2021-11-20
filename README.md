@@ -93,6 +93,8 @@ This is what will happen automatically:
 - If every file ends with the same string (at least 2 characters), it is removed
 - All spaces are converted to underscores
 
+**Note:** As of v2.3.0 you can disable file renaming by passing the `--no-rename` option.
+
 ## Exit Codes
 
 | Exit code | Description       |
