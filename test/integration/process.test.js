@@ -463,3 +463,40 @@ test(
     });
   }
 );
+
+test(
+  `[process-013]
+  Given
+    - valid path, with mp3 files, with 'info.txt' file
+  When
+    - app is called with --no-rename option
+  Then
+    - files should not be renamed
+    - exit code is 0
+`.trim(),
+  async () => {
+    // Given...
+    const tmpobj = tmp.dirSync();
+    const path_tmp = tmpobj.name;
+
+    const file1 = TestUtil.getRefFile1(path_tmp);
+    const file2 = TestUtil.getRefFile2(path_tmp);
+    TestUtil.copyRefFiles([file1, file2]);
+    TestUtil.createInfoTxt(path_tmp);
+
+    const args = [path_tmp, "--no-rename"];
+
+    // When...
+    const result = TestUtil.exec(args);
+
+    // Then... exit without error
+    expect(result.status).toEqual(0);
+    expect(result.stderr.toString().length).toEqual(0);
+
+    // Then... files should have been renamed
+    [file1, file2].forEach((file) => {
+      expect(fs.existsSync(file.dest)).toEqual(true);
+      expect(fs.existsSync(file.renamed)).toEqual(false);
+    });
+  }
+);
