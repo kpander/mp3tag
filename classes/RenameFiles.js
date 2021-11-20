@@ -8,6 +8,13 @@ const path = require("path");
 
 const CommonSubstring = require("../util/CommonSubstring");
 
+// Support earlier versions of node.
+if (!String.prototype.replaceAll) {
+  String.prototype.replaceAll = function (str, newStr) {
+    return this.split("str").join(newStr);
+  };
+}
+
 module.exports = class RenameFiles {
   constructor() {}
 
@@ -29,8 +36,9 @@ module.exports = class RenameFiles {
 
       basename = RenameFiles._replace_common_strings(basename, common);
       basename = RenameFiles._clean(basename);
-      basename = RenameFiles._number(basename, index + 1);
-      basename = RenameFiles._ucwords(basename.toLocaleLowerCase());
+      basename = RenameFiles._number(basename, index + 1, file);
+      basename = RenameFiles._ucwords(basename);
+      basename = basename.replaceAll("-", "_"); // Hyphens to underscores
       basename = basename.replaceAll(" ", "_"); // Spaces to underscores
 
       const renamed = path.join(path.dirname(file), `${basename}.${ext}`);
@@ -43,26 +51,32 @@ module.exports = class RenameFiles {
 
   static _clean(file) {
     return file
-      .trim()
+      .replace(/^[\s-_]{1,}/, "") // Remove leading spaces/underscores/dashes
+      .replace(/^[0-9]{1,}/, "") // Remove leading numbers
+      .replace(/^\.{1,}/, "") // Remove leading period
       .replaceAll("_", " ") // Underscores to Spaces
       .trim()
       .replaceAll("[", "(") // Brackets to parentheses
       .replaceAll("]", ")") // Brackets to parentheses
+      .replace(/[\.]{1,}$/, "") // Remove trailing periods
       .replace(/[\s-]{1,}$/, "") // Remove trailing underscores/dashes
       .replace(/^[\s-]{1,}/, "") // Remove leading underscores/dashes
       .replace(/\s+/g, " ") // Multiple spaces to single space
-      .replace(/^([0-9]{1,})[.-\s]{1,}/, "$1 ") // Fix numbers like "05.name"
+      .replace(/[\.]{1,}/g, ".") // Multiple periods to single period
+      .replace(/\.{1,}$/, "") // Remove trailing period
       .trim();
   }
 
-  static _number(file, index) {
+  static _number(file, index, original_file) {
     const zero_pad = (num, places) => String(num).padStart(places, "0");
 
-    if (!file.match(/^[0-9]{2,}[\s-_]/)) {
-      file = file.replace(/^[0-9]{1,}\s/, ""); // Remove file number
+    const match = path.basename(original_file).match(/^([0-9]{1,})/);
+    let size = match ? match[0].length : 2;
+
+    if (size < 3) {
       return `${zero_pad(index, 2)} ${file}`;
     } else {
-      return file;
+      return `${match[0]} ${file}`;
     }
   }
 
@@ -70,9 +84,16 @@ module.exports = class RenameFiles {
   // Account for words inside parentheses.
   // https://gist.github.com/rickycheers/4541395
   static _ucwords(str) {
-    str = str.replace(/([()])/g, "$1 "); // Tmp transform for parentheses
+    // Characters after a period should be uppercase.
+    str = str.replace(/\./g, " . ");
     str = (" " + str).replace(/ [\w]/g, (a) => a.toLocaleUpperCase()).trim();
-    str = str.replace(/([()]) /g, "$1"); // Restore tmp transform
+    str = str.replace(/ \. /g, ".");
+
+    // Characters starting after a parenthesis should be uppercase.
+    str = str.replace(/([()])/g, "$1 ");
+    str = (" " + str).replace(/ [\w]/g, (a) => a.toLocaleUpperCase()).trim();
+    str = str.replace(/([()]) /g, "$1");
+
     return str;
   }
 
@@ -80,7 +101,8 @@ module.exports = class RenameFiles {
     if (files.length < 2) return {};
 
     const basenames = files.map((file) => {
-      return path.basename(file, ".mp3");
+      const basename = path.basename(file, ".mp3");
+      return basename.replace(/^[0-9]{1,}/, ""); // Remove leading numbers
     });
 
     return {

@@ -1,5 +1,11 @@
 # CHANGELOG
 
+- v2.2.1 (2021-11-20)
+
+  - Bugfix: File renaming consistency improved
+    - Fixes consecutive periods, capitalization after periods, common strings
+    - Preserves existing capitalization
+
 - v2.2.0 (2021-11-16)
 
   - Feature: Adds ability to display tags for files in the given folder

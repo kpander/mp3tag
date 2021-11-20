@@ -78,6 +78,21 @@ You can also use tag to show existing tags for files. Tags will be taken from th
 
 Usage: `$ tag /path/to/files --list`
 
+## File renaming rules
+
+This is what will happen automatically:
+
+- Square brackets ('[' and ']') are converted to parentheses ('(' and ')')
+- Leading/trailing spaces/underscores/hyphens are removed
+- Consecutive spaces/underscores will be replaced with a single underscore
+- Consecutive periods will be replaced with a single one
+- Files are named beginning with a 2 character number (e.g., "05_Filename.mp3")
+  - If files already begin with a number > 2 digits, that number is retained (e.g., "201_Filename.mp3")
+- Each 'word' in a filename is capitalized
+- If every file begins with the same string (at least 5 characters), it is removed
+- If every file ends with the same string (at least 5 characters), it is removed
+- All spaces are converted to underscores
+
 ## Exit Codes
 
 | Exit code | Description       |
