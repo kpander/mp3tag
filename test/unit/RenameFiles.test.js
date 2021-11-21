@@ -568,3 +568,29 @@ test(
     expect(result).toEqual(expected);
   }
 );
+
+test(
+  `[RenameFiles-022]
+  Given
+    - an array of paths/filenames
+    - with space/hyphen/space pattern
+  When
+    - renameFiles is called
+  Then
+    - a map of source/renamed files is returned
+    - consecutive underscores are reduced
+`.trim(),
+  async () => {
+    // Given...
+    const expected = {
+      "/path/to/01-someword_-_another_word.mp3":
+        "/path/to/01_Someword_Another_Word.mp3",
+    };
+
+    // When...
+    const result = RenameFiles.renameFiles(Object.keys(expected));
+
+    // Then...
+    expect(result).toEqual(expected);
+  }
+);

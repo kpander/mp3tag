@@ -40,6 +40,7 @@ module.exports = class RenameFiles {
       basename = RenameFiles._ucwords(basename);
       basename = basename.replaceAll("-", "_"); // Hyphens to underscores
       basename = basename.replaceAll(" ", "_"); // Spaces to underscores
+      basename = basename.replace(/_+/g, "_"); // Multiple underscores to single
 
       const renamed = path.join(path.dirname(file), `${basename}.${ext}`);
 

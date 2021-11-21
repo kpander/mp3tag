@@ -1,5 +1,10 @@
 # CHANGELOG
 
+- v2.3.1 (2021-11-21)
+
+  - Bugfix: File renaming bug fixed for consecutive underscores
+    - See [Github issue](https://github.com/kpander/mp3tag/issues/11)
+
 - v2.3.0 (2021-11-20)
 
   - Feature: Adds ability to disable file renaming during tagging
