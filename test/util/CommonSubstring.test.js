@@ -307,3 +307,47 @@ test(
     expect(result).toEqual("");
   }
 );
+
+test(
+  `[CommonSubstring-015]
+  Given
+    - an array of strings is given
+    - each string ends in "test"
+  When
+    - arrayItemsEnd is called, to check if strings end in "not-test"
+  Then
+    - boolean false is returned
+`.trim(),
+  async () => {
+    // Given...
+    const arr = ["string 1 test", "string 2 test", "string 3 test"];
+
+    // When...
+    const result = CommonSubstring.arrayItemsEnd(arr, "not-test");
+
+    // Then...
+    expect(result).toEqual(false);
+  }
+);
+
+test(
+  `[CommonSubstring-016]
+  Given
+    - an array of strings is given
+    - each string ends in "test"
+  When
+    - arrayItemsEnd is called, to check if strings end in "test"
+  Then
+    - boolean true is returned
+`.trim(),
+  async () => {
+    // Given...
+    const arr = ["string 1 test", "string 2 test", "string 3 test"];
+
+    // When...
+    const result = CommonSubstring.arrayItemsEnd(arr, "test");
+
+    // Then...
+    expect(result).toEqual(true);
+  }
+);

@@ -8,6 +8,7 @@
   },
   "scripts": {
     "test": "jest",
+    "coverage": "jest --collectCoverage --",
     "prepare": "husky install"
   },
   "author": "Kendall Anderson <ka@invisiblethreads.com>",

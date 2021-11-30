@@ -194,3 +194,41 @@ test(
     });
   }
 );
+
+test(
+  `[TagFiles-007]
+  Given
+    - no filename
+  When
+    - TagFiles.write() is called
+  Then
+    - boolean false is returned
+`.trim(),
+  async () => {
+    // Given...
+    // When...
+    const result = TagFiles.write();
+
+    // Then...
+    expect(result).toEqual(false);
+  }
+);
+
+test(
+  `[TagFiles-008]
+  Given
+    - filename, but no tags
+  When
+    - TagFiles.write() is called
+  Then
+    - boolean false is returned
+`.trim(),
+  async () => {
+    // Given...
+    // When...
+    const result = TagFiles.write("/tmp/filename");
+
+    // Then...
+    expect(result).toEqual(false);
+  }
+);

@@ -254,3 +254,22 @@ test(
     expect(result).toEqual(expected);
   }
 );
+
+test(
+  `[ParsePath-010]
+  Given
+    - non-string pathname
+  When
+    - artistAlbumFromPath is called
+  Then
+    - empty object is returned
+`.trim(),
+  async () => {
+    // Given...
+    // When...
+    const result = ParsePath.artistAlbumFromPath(1234);
+
+    // Then...
+    expect(result).toEqual({});
+  }
+);
