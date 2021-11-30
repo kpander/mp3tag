@@ -594,3 +594,25 @@ test(
     expect(result).toEqual(expected);
   }
 );
+
+test(
+  `[RenameFiles-023]
+  Given
+    - a string
+  When
+    - string prototype .replaceAll is called
+  Then
+    - the search values are replaced
+`.trim(),
+  async () => {
+    // Given...
+    const original = "this is the time the thing is there";
+    const expected = "this is - time - thing is -re";
+
+    // When...
+    const result = original.replaceAll("the", "-");
+
+    // Then...
+    expect(result).toEqual(expected);
+  }
+);
