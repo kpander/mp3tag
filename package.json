@@ -29,7 +29,7 @@
     "tmp": "^0.2.1"
   },
   "dependencies": {
-    "minimist": "^1.2.5",
+    "minimist": "^1.2.6",
     "node-id3": "^0.2.3"
   }
 }
