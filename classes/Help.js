@@ -20,7 +20,7 @@ module.exports = class Help {
       `
 Usage: ${bin} path/to/process [options]
 
-Add ID3 data and rename mp3 files in the current folder.
+Add ID3 data from info.txt and rename mp3 files in the current folder.
 
 Options:
   -l, --list      Show existing tags for files in the folder (don't add tags)
@@ -45,6 +45,14 @@ Examples:
 
   Show existing tags for mp3 files in ~/music/my-band
    $ ${bin} ~/music/my-band --list
+
+Format for info.txt file:
+
+ARTIST=Artist name here
+ALBUM=Album name here
+YEAR=2023
+GENRE=Rock
+URL=https://www.allmusic.com/something
 
   `.trim()
     );
