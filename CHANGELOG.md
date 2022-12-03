@@ -1,5 +1,10 @@
 # CHANGELOG
 
+- v2.3.2 (2022-12-02)
+
+  - Maintenance: Adds info.txt details to program help
+    - See [Github issue](https://github.com/kpander/mp3tag/issues/15)
+
 - v2.3.1 (2021-11-21)
 
   - Bugfix: File renaming bug fixed for consecutive underscores
